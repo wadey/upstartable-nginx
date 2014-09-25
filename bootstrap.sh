@@ -1,4 +1,6 @@
-VERSION="1.3.13"
+#!/bin/sh
+
+VERSION="1.6.2"
 BUILD="betable1"
 
 set -e -x
@@ -10,16 +12,21 @@ cd "$(mktemp -d)"
 trap "rm -rf \"$PWD\"" EXIT INT QUIT TERM
 
 curl -O "http://nginx.org/download/nginx-$VERSION.tar.gz"
-tar xf "nginx-$VERSION.tar.gz"
+/bin/tar xf "nginx-$VERSION.tar.gz"
 cd "nginx-$VERSION"
-git clone -b"v0.19" "git://github.com/agentzh/headers-more-nginx-module"
-#git clone -b"2.2.0" "git://github.com/vkholodkov/nginx-upload-module"
-git clone -b"v0.9.0" "git://github.com/masterzen/nginx-upload-progress-module"
-git clone -b"a18b4099fbd458111983200e098b6f0c8efed4bc" "git://github.com/gnosek/nginx-upstream-fair"
+
+git clone -b"v0.25" "git@github.com:agentzh/headers-more-nginx-module"
+git clone -b"v0.9.1" "git@github.com:masterzen/nginx-upload-progress-module"
+git clone -b"a18b409" "git@github.com:gnosek/nginx-upstream-fair"
+git clone -b"v0.4.5" "git@github.com:yaoweibin/nginx_tcp_proxy_module.git"
+
+patch -p1 < "nginx_tcp_proxy_module/tcp.patch"
+
 ./configure \
     --add-module="headers-more-nginx-module" \
     --add-module="nginx-upload-progress-module" \
     --add-module="nginx-upstream-fair" \
+    --add-module="nginx_tcp_proxy_module" \
     --conf-path="/etc/nginx/nginx.conf" \
     --error-log-path="/var/log/nginx/error.log" \
     --group="www-data" \
@@ -38,7 +45,7 @@ git clone -b"a18b4099fbd458111983200e098b6f0c8efed4bc" "git://github.com/gnosek/
     --without-http_scgi_module \
     --without-http_uwsgi_module \
     --with-sha1="/usr/include/openssl"
-# FIXME --add-module="nginx-upload-module"
+
 make
 mkdir "rootfs"
 make install DESTDIR="$PWD/rootfs"
@@ -52,12 +59,13 @@ find "rootfs/etc/nginx" -name "*.default" -delete
 
 find "$DIRNAME" -type "d" -printf "%P\n" |
 xargs -I"__" mkdir -p "rootfs/__"
+
 find "$DIRNAME" -not -name "bootstrap.sh" -not -name "README.md" -type "f" -printf "%P\n" |
 xargs -I"__" cp "$DIRNAME/__" "rootfs/__"
 
 fakeroot fpm -C "rootfs" \
              -d "inotify-tools" -d "netcat" -d "procps" \
-             -m "Richard Crowley <richard@betable.com>" \
+             -m "Nate Brown <nate@betable.com>" \
              -n "nginx" -v "$VERSION-$BUILD" \
              -p "$OLDESTPWD/nginx_${VERSION}-${BUILD}_amd64.deb" \
              --replaces "nginx-common" --replaces "nginx-extras" \
