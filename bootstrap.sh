@@ -1,13 +1,13 @@
 #!/bin/sh
 
-VERSION="1.6.2"
+VERSION="1.7.10"
 BUILD="betable1"
 
 set -e -x
 
 DIRNAME="$(cd "$(dirname "$0")" && pwd)"
 OLDESTPWD="$PWD"
- 
+
 cd "$(mktemp -d)"
 trap "rm -rf \"$PWD\"" EXIT INT QUIT TERM
 
@@ -18,15 +18,11 @@ cd "nginx-$VERSION"
 git clone -b"v0.25" "git@github.com:agentzh/headers-more-nginx-module"
 git clone -b"v0.9.1" "git@github.com:masterzen/nginx-upload-progress-module"
 git clone -b"a18b409" "git@github.com:gnosek/nginx-upstream-fair"
-git clone -b"v0.4.5" "git@github.com:yaoweibin/nginx_tcp_proxy_module.git"
-
-patch -p1 < "nginx_tcp_proxy_module/tcp.patch"
 
 ./configure \
     --add-module="headers-more-nginx-module" \
     --add-module="nginx-upload-progress-module" \
     --add-module="nginx-upstream-fair" \
-    --add-module="nginx_tcp_proxy_module" \
     --conf-path="/etc/nginx/nginx.conf" \
     --error-log-path="/var/log/nginx/error.log" \
     --group="www-data" \

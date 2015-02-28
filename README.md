@@ -1,18 +1,18 @@
 `upstartable-nginx`
 ===================
 
-Debian packaging of Nginx 1.3.13 with WebSockets for supervision by Upstart.
+Debian packaging of Nginx 1.7.17 with WebSockets for supervision by Upstart.
 
 Usage
 -----
 
-Build `nginx_1.3.13-betable1_amd64.deb` using [FPM](https://github.com/jordansissel/fpm):
+Build `nginx_1.7.10-betable1_amd64.deb` using [FPM](https://github.com/jordansissel/fpm):
 
     sh bootstrap.sh
 
-Add `nginx_1.3.13-betable1_amd64.deb` to a Debian archive using [Freight](https://github.com/rcrowley/freight) or some other less awesome tools or just install it directly:
+Add `nginx_1.7.10-betable1_amd64.deb` to a Debian archive using [Freight](https://github.com/rcrowley/freight) or some other less awesome tools or just install it directly:
 
-    dpkg -i nginx_1.3.13-betable1_amd64.deb
+    dpkg -i nginx_1.7.10-betable1_amd64.deb
 
 The package doesn't come with a complete configuration so you'll have to adjust `/etc/nginx/nginx.conf`, `/etc/nginx/conf.d`, `/etc/nginx/sites-available/*`, and `/etc/nginx/sites-enabled/*` as you see fit before it will start.
 
