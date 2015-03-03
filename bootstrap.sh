@@ -1,7 +1,7 @@
 #!/bin/sh
 
 VERSION="1.7.10"
-BUILD="betable2"
+BUILD="betable3"
 
 set -e -x
 
