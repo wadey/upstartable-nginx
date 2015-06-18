@@ -1,7 +1,7 @@
 #!/bin/sh
 
 VERSION="1.7.10"
-BUILD="betable3"
+BUILD="betable5"
 
 set -e -x
 
@@ -18,13 +18,16 @@ cd "nginx-$VERSION"
 git clone -b"v0.25" "git@github.com:agentzh/headers-more-nginx-module"
 git clone -b"v0.9.1" "git@github.com:masterzen/nginx-upload-progress-module"
 git clone -b"a18b409" "git@github.com:gnosek/nginx-upstream-fair"
+git clone -b"b756a12" "git@github.com:zebrafishlabs/nginx-statsd.git"
 
 patch -p1 < "$DIRNAME/patches/syslog-tag-allow-dashes.patch"
+patch -p1 < "$DIRNAME/patches/syslog-tag-length.patch"
 
 ./configure \
     --add-module="headers-more-nginx-module" \
     --add-module="nginx-upload-progress-module" \
     --add-module="nginx-upstream-fair" \
+    --add-module="nginx-statsd" \
     --conf-path="/etc/nginx/nginx.conf" \
     --error-log-path="/var/log/nginx/error.log" \
     --group="www-data" \

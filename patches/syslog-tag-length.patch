@@ -1,0 +1,27 @@
+diff --git a/src/core/ngx_syslog.c b/src/core/ngx_syslog.c
+index d4e79f6..cce3fb9 100644
+--- a/src/core/ngx_syslog.c
++++ b/src/core/ngx_syslog.c
+@@ -12,7 +12,7 @@
+ #define NGX_SYSLOG_MAX_STR                                                    \
+      NGX_MAX_ERROR_STR + sizeof("<255>Jan 01 00:00:00 ") - 1                  \
+      + (NGX_MAXHOSTNAMELEN - 1) + 1 /* space */                               \
+-     + 32 /* tag */ + 2 /* colon, space */
++     + 64 /* tag */ + 2 /* colon, space */
+
+
+ static char *ngx_syslog_parse_args(ngx_conf_t *cf, ngx_syslog_peer_t *peer);
+@@ -171,11 +171,11 @@ ngx_syslog_parse_args(ngx_conf_t *cf, ngx_syslog_peer_t *peer)
+
+             /*
+              * RFC 3164: the TAG is a string of ABNF alphanumeric characters
+-             * that MUST NOT exceed 32 characters.
++             * that MUST NOT exceed 64 characters.
+              */
+-            if (len - 4 > 32) {
++            if (len - 4 > 64) {
+                 ngx_conf_log_error(NGX_LOG_EMERG, cf, 0,
+-                                   "syslog tag length exceeds 32");
++                                   "syslog tag length exceeds 64");
+                 return NGX_CONF_ERROR;
+             }
