@@ -17,9 +17,9 @@ cd "nginx-$VERSION"
 
 git clone "git@github.com:agentzh/headers-more-nginx-module"; cd headers-more-nginx-module; git checkout -b "v0.25" "tags/v0.25"; cd ../
 git clone "git@github.com:masterzen/nginx-upload-progress-module"; cd nginx-upload-progress-module; git checkout -b "v0.9.1" "tags/v0.9.1"; cd ../
-git clone -b"a18b409" "git@github.com:gnosek/nginx-upstream-fair"
-git clone -b"b756a12" "git@github.com:zebrafishlabs/nginx-statsd.git"
-git clone -b"f1c197c" "git@github.com:streadway/ngx_txid.git"
+git clone "git@github.com:gnosek/nginx-upstream-fair"; cd nginx-upstream-fair; git checkout -b "v1" "a18b409"; cd ../
+git clone "git@github.com:zebrafishlabs/nginx-statsd.git"; cd nginx-statsd; git checkout -b "v1" "b756a12"; cd ../
+git clone "git@github.com:streadway/ngx_txid.git"; cd ngx_txid; git checkout -b "v1" "f1c197c"; cd ../
 
 patch -p1 < "$DIRNAME/patches/syslog-tag-allow-dashes.patch"
 patch -p1 < "$DIRNAME/patches/syslog-tag-length.patch"
