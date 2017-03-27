@@ -1,7 +1,7 @@
 #!/bin/sh
 
-VERSION="1.7.10"
-BUILD="betable6"
+VERSION="1.10.3"
+BUILD="betable1"
 
 set -e -x
 
@@ -15,10 +15,10 @@ curl -O "http://nginx.org/download/nginx-$VERSION.tar.gz"
 /bin/tar xf "nginx-$VERSION.tar.gz"
 cd "nginx-$VERSION"
 
-git clone "git@github.com:agentzh/headers-more-nginx-module"; cd headers-more-nginx-module; git checkout -b "v0.25" "tags/v0.25"; cd ../
-git clone "git@github.com:masterzen/nginx-upload-progress-module"; cd nginx-upload-progress-module; git checkout -b "v0.9.1" "tags/v0.9.1"; cd ../
+git clone "git@github.com:agentzh/headers-more-nginx-module"; cd headers-more-nginx-module; git checkout -b "v0.32" "tags/v0.32"; cd ../
+git clone "git@github.com:masterzen/nginx-upload-progress-module"; cd nginx-upload-progress-module; git checkout -b "v0.9.2" "tags/v0.9.2"; cd ../
 git clone "git@github.com:gnosek/nginx-upstream-fair"; cd nginx-upstream-fair; git checkout -b "v1" "a18b409"; cd ../
-git clone "git@github.com:zebrafishlabs/nginx-statsd.git"; cd nginx-statsd; git checkout -b "v1" "b756a12"; cd ../
+git clone "git@github.com:zebrafishlabs/nginx-statsd.git"; cd nginx-statsd; git checkout -b "v1" "07dcefd"; cd ../
 git clone "git@github.com:streadway/ngx_txid.git"; cd ngx_txid; git checkout -b "v1" "f1c197c"; cd ../
 
 patch -p1 < "$DIRNAME/patches/syslog-tag-allow-dashes.patch"

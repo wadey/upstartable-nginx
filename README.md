@@ -1,7 +1,7 @@
 `upstartable-nginx`
 ===================
 
-Debian packaging of Nginx 1.7.17 with WebSockets for supervision by Upstart.
+Debian packaging of Nginx 1.10.3 with WebSockets for supervision by Upstart.
 
 Usage
 -----
